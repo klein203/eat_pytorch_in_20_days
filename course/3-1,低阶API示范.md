@@ -15,7 +15,6 @@ def printbar():
 
 #mac系统上pytorch和matplotlib在jupyter中同时跑需要更改环境变量
 os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE" 
-
 ```
 
 ### 一，线性回归模型
@@ -30,7 +29,6 @@ from matplotlib import pyplot as plt
 import torch
 from torch import nn
 
-
 #样本数量
 n = 400
 
@@ -39,7 +37,6 @@ X = 10*torch.rand([n,2])-5.0  #torch.rand是均匀分布
 w0 = torch.tensor([[2.0],[-3.0]])
 b0 = torch.tensor([[10.0]])
 Y = X@w0 + b0 + torch.normal( 0.0,2.0,size = [n,1])  # @表示矩阵乘法,增加正态扰动
-
 ```
 
 ```python
@@ -61,10 +58,9 @@ ax2.legend()
 plt.xlabel("x2")
 plt.ylabel("y",rotation = 0)
 plt.show()
-
 ```
 
-![](./data/3-1-回归数据可视化.png)
+![](../data/3-1-回归数据可视化.png)
 
 ```python
 # 构建数据管道迭代器
@@ -81,7 +77,6 @@ batch_size = 8
 (features,labels) = next(data_iter(X,Y,batch_size))
 print(features)
 print(labels)
-
 ```
 
 ```
@@ -123,12 +118,8 @@ class LinearRegression:
         return torch.mean((y_pred - y_true)**2/2)
 
 model = LinearRegression()
-
 ```
 
-```python
-
-```
 
 **3，训练模型**
 
@@ -151,7 +142,6 @@ def train_step(model, features, labels):
         model.w.grad.zero_()
         model.b.grad.zero_()
     return loss
- 
 ```
 
 ```python
@@ -159,7 +149,6 @@ def train_step(model, features, labels):
 batch_size = 10
 (features,labels) = next(data_iter(X,Y,batch_size))
 train_step(model,features,labels)
-
 ```
 
 ```
@@ -179,7 +168,6 @@ def train_model(model,epochs):
             print("model.b =",model.b.data)
 
 train_model(model,epochs = 1000)
-
 ```
 
 ```
@@ -215,10 +203,6 @@ model.b = tensor([[10.0781]])
 ```
 
 ```python
-
-```
-
-```python
 # 结果可视化
 
 %matplotlib inline
@@ -243,17 +227,11 @@ plt.ylabel("y",rotation = 0)
 plt.show()
 ```
 
-![](./data/3-1-回归结果可视化.png)
+![](../data/3-1-回归结果可视化.png)
 
-```python
-
-```
 
 ### 二，DNN二分类模型
 
-```python
-
-```
 
 **1，准备数据**
 
@@ -291,10 +269,9 @@ plt.figure(figsize = (6,6))
 plt.scatter(Xp[:,0].numpy(),Xp[:,1].numpy(),c = "r")
 plt.scatter(Xn[:,0].numpy(),Xn[:,1].numpy(),c = "g")
 plt.legend(["positive","negative"]);
-
 ```
 
-![](./data/3-1-分类数据可视化.png)
+![](../data/3-1-分类数据可视化.png)
 
 ```python
 # 构建数据管道迭代器
@@ -311,7 +288,6 @@ batch_size = 8
 (features,labels) = next(data_iter(X,Y,batch_size))
 print(features)
 print(labels)
-
 ```
 
 ```
@@ -333,9 +309,6 @@ tensor([[0.],
         [1.]])
 ```
 
-```python
-
-```
 
 **2，定义模型**
 
@@ -376,7 +349,6 @@ class DNNModel(nn.Module):
         return acc
     
 model = DNNModel()
-
 ```
 
 ```python
@@ -391,7 +363,6 @@ metric = model.metric_func(labels,predictions)
 
 print("init loss:", loss.item())
 print("init metric:", metric.item())
-
 ```
 
 ```
@@ -430,7 +401,6 @@ def train_step(model, features, labels):
     model.zero_grad()
         
     return loss.item(),metric.item()
- 
 
 def train_model(model,epochs):
     for epoch in range(1,epochs+1):
@@ -447,7 +417,6 @@ def train_model(model,epochs):
             print("epoch =",epoch,"loss = ",loss,"metric = ",metric)
         
 train_model(model,epochs = 1000)
-
 ```
 
 ```
@@ -497,17 +466,6 @@ ax2.scatter(Xp_pred[:,0],Xp_pred[:,1],c = "r")
 ax2.scatter(Xn_pred[:,0],Xn_pred[:,1],c = "g")
 ax2.legend(["positive","negative"]);
 ax2.set_title("y_pred");
-
 ```
 
-![](./data/3-1-分类结果可视化.png)
-
-```python
-
-```
-
-如果对本书内容理解上有需要进一步和作者交流的地方，欢迎在公众号"Python与算法之美"下留言。作者时间和精力有限，会酌情予以回复。
-
-也可以在公众号后台回复关键字：**加群**，加入读者交流群和大家讨论。
-
-![image.png](./data/Python与算法之美logo.jpg)
+![](../data/3-1-分类结果可视化.png)

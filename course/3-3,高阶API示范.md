@@ -21,7 +21,6 @@ def printbar():
 
 #mac系统上pytorch和matplotlib在jupyter中同时跑需要更改环境变量
 os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE" 
-
 ```
 
 ### 一，线性回归模型
@@ -49,7 +48,6 @@ X = 10*torch.rand([n,2])-5.0  #torch.rand是均匀分布
 w0 = torch.tensor([[2.0],[-3.0]])
 b0 = torch.tensor([[10.0]])
 Y = X@w0 + b0 + torch.normal( 0.0,2.0,size = [n,1])  # @表示矩阵乘法,增加正态扰动
-
 ```
 
 ```python
@@ -71,10 +69,9 @@ ax2.legend()
 plt.xlabel("x2")
 plt.ylabel("y",rotation = 0)
 plt.show()
-
 ```
 
-![](./data/3-3-回归数据可视化.png)
+![](../data/3-3-回归数据可视化.png)
 
 ```python
 #构建输入数据管道
@@ -82,11 +79,6 @@ ds = TensorDataset(X,Y)
 ds_train,ds_valid = torch.utils.data.random_split(ds,[int(400*0.7),400-int(400*0.7)])
 dl_train = DataLoader(ds_train,batch_size = 10,shuffle=True,num_workers=2)
 dl_valid = DataLoader(ds_valid,batch_size = 10,num_workers=2)
-
-```
-
-```python
-
 ```
 
 **2，定义模型**
@@ -103,7 +95,6 @@ class LinearRegression(Model):
         return self.fc(x)
 
 model = LinearRegression()
-
 ```
 
 ```python
@@ -127,10 +118,6 @@ Estimated Total Size (MB): 0.000027
 ----------------------------------------------------------------
 ```
 
-```python
-
-```
-
 **3，训练模型**
 
 ```python
@@ -148,7 +135,6 @@ model.compile(loss_func = nn.MSELoss(),
               metrics_dict={"mae":mean_absolute_error,"mape":mean_absolute_percent_error})
 
 dfhistory = model.fit(200,dl_train = dl_train, dl_val = dl_valid,log_step_freq = 20)
-
 ```
 
 ```
@@ -227,7 +213,6 @@ plt.xlabel("x2")
 plt.ylabel("y",rotation = 0)
 
 plt.show()
-
 ```
 
 **4，评估模型**
@@ -236,7 +221,7 @@ plt.show()
 dfhistory.tail()
 ```
 
-![](./data/3-3-dfhistory.png)
+![](../data/3-3-dfhistory.png)
 
 ```python
 %matplotlib inline
@@ -255,20 +240,19 @@ def plot_metric(dfhistory, metric):
     plt.ylabel(metric)
     plt.legend(["train_"+metric, 'val_'+metric])
     plt.show()
-    
 ```
 
 ```python
 plot_metric(dfhistory,"loss")
 ```
 
-![](./data/3-3-loss曲线.png)
+![](../data/3-3-loss曲线.png)
 
 ```python
 plot_metric(dfhistory,"mape")
 ```
 
-![](./data/3-3-mape曲线.png)
+![](../data/3-3-mape曲线.png)
 
 ```python
 # 评估
@@ -281,9 +265,6 @@ model.evaluate(dl_valid)
  'val_mape': 0.36319838215907413}
 ```
 
-```python
-
-```
 
 **5，使用模型**
 
@@ -322,10 +303,6 @@ tensor([[ 2.8368],
         [12.9775],
         [21.8568],
         [21.8226]])
-```
-
-```python
-
 ```
 
 ### 二，DNN二分类模型
@@ -373,10 +350,9 @@ plt.figure(figsize = (6,6))
 plt.scatter(Xp[:,0],Xp[:,1],c = "r")
 plt.scatter(Xn[:,0],Xn[:,1],c = "g")
 plt.legend(["positive","negative"]);
-
 ```
 
-![](./data/3-3-分类数据可视化.png)
+![](../data/3-3-分类数据可视化.png)
 
 ```python
 ds = TensorDataset(X,Y)
@@ -384,17 +360,11 @@ ds = TensorDataset(X,Y)
 ds_train,ds_valid = torch.utils.data.random_split(ds,[int(len(ds)*0.7),len(ds)-int(len(ds)*0.7)])
 dl_train = DataLoader(ds_train,batch_size = 100,shuffle=True,num_workers=2)
 dl_valid = DataLoader(ds_valid,batch_size = 100,num_workers=2)
-
-```
-
-```python
-
 ```
 
 **2，定义模型**
 
 ```python
-
 class Net(nn.Module):
     def __init__(self):
         super().__init__()
@@ -446,7 +416,6 @@ model.compile(loss_func = nn.BCELoss(),optimizer= torch.optim.Adam(model.paramet
              metrics_dict={"accuracy":accuracy})
 
 dfhistory = model.fit(100,dl_train = dl_train,dl_val = dl_valid,log_step_freq = 10)
-
 ```
 
 ```
@@ -520,10 +489,9 @@ ax2.scatter(Xp_pred[:,0],Xp_pred[:,1],c = "r")
 ax2.scatter(Xn_pred[:,0],Xn_pred[:,1],c = "g")
 ax2.legend(["positive","negative"]);
 ax2.set_title("y_pred");
-
 ```
 
-![](./data/3-3-分类结果可视化.png)
+![](../data/3-3-分类结果可视化.png)
 
 
 **4，评估模型**
@@ -551,13 +519,13 @@ def plot_metric(dfhistory, metric):
 plot_metric(dfhistory,"loss")
 ```
 
-![](./data/3-3-分类loss曲线.png)
+![](../data/3-3-分类loss曲线.png)
 
 ```python
 plot_metric(dfhistory,"accuracy")
 ```
 
-![](./data/3-3-分类acc曲线.png)
+![](../data/3-3-分类acc曲线.png)
 
 ```python
 model.evaluate(dl_valid)
@@ -585,15 +553,4 @@ tensor([[0.9998],
         [0.0373],
         [0.2134],
         [0.9356]])
-
 ```
-
-```python
-
-```
-
-如果对本书内容理解上有需要进一步和作者交流的地方，欢迎在公众号"Python与算法之美"下留言。作者时间和精力有限，会酌情予以回复。
-
-也可以在公众号后台回复关键字：**加群**，加入读者交流群和大家讨论。
-
-![image.png](./data/Python与算法之美logo.jpg)
