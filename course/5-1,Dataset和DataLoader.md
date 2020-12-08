@@ -11,10 +11,6 @@ DataLoader能够控制batch的大小，batch中元素的采样方法，以及将
 在绝大部分情况下，用户只需实现Dataset的`__len__`方法和`__getitem__`方法，就可以轻松构建自己的数据集，并用默认数据管道进行加载。
 
 
-```python
-
-```
-
 ### 一，Dataset和DataLoader概述
 
 
@@ -46,10 +42,6 @@ DataLoader能够控制batch的大小，batch中元素的采样方法，以及将
 `labels = torch.stack([Y[1],Y[4],Y[8],Y[9]])`
 
 
-```python
-
-```
-
 **2，Dataset和DataLoader的功能分工**
 
 
@@ -65,9 +57,6 @@ DataLoader能够控制batch的大小，batch中元素的采样方法，以及将
 
 第4个步骤的逻辑由DataLoader的参数`collate_fn`指定。一般情况下也无需用户设置。
 
-```python
-
-```
 
 **3，Dataset和DataLoader的主要接口**
 
@@ -101,11 +90,6 @@ class DataLoader(object):
         indices = next(self.sample_iter)
         batch = self.collate_fn([self.dataset[i] for i in indices])
         return batch
-    
-```
-
-```python
-
 ```
 
 ### 二，使用Dataset创建数据集
@@ -133,7 +117,6 @@ Dataset创建数据集常用的方法有：
 import numpy as np 
 import torch 
 from torch.utils.data import TensorDataset,Dataset,DataLoader,random_split 
-
 ```
 
 ```python
@@ -150,7 +133,6 @@ ds_train,ds_valid = random_split(ds_iris,[n_train,n_valid])
 
 print(type(ds_iris))
 print(type(ds_train))
-
 ```
 
 ```python
@@ -172,11 +154,6 @@ print('len(ds_valid) = ',len(ds_valid))
 print('len(ds_train+ds_valid) = ',len(ds_data))
 
 print(type(ds_data))
-
-```
-
-```python
-
 ```
 
 **2，根据图片目录创建图片数据集**
@@ -185,8 +162,7 @@ print(type(ds_data))
 import numpy as np 
 import torch 
 from torch.utils.data import DataLoader
-from torchvision import transforms,datasets 
-
+from torchvision import transforms, datasets 
 ```
 
 ```python
@@ -195,25 +171,25 @@ from torchvision import transforms,datasets
 
 ```python
 from PIL import Image
-img = Image.open('./data/cat.jpeg')
+img = Image.open('../data/cat.jpeg')
 img
 ```
 
-![](./data/5-1-傻乎乎.png)
+![](../data/5-1-傻乎乎.png)
 
 ```python
 # 随机数值翻转
 transforms.RandomVerticalFlip()(img)
 ```
 
-![](./data/5-1-翻转.png)
+![](../data/5-1-翻转.png)
 
 ```python
 #随机旋转
 transforms.RandomRotation(45)(img)
 ```
 
-![](./data/5-1-旋转.png)
+![](../data/5-1-旋转.png)
 
 ```python
 # 定义图片增强操作
@@ -230,18 +206,16 @@ transform_valid = transforms.Compose([
     transforms.ToTensor()
   ]
 )
-
 ```
 
 ```python
 # 根据图片目录创建数据集
-ds_train = datasets.ImageFolder("./data/cifar2/train/",
+ds_train = datasets.ImageFolder("../data/cifar2/train/",
             transform = transform_train,target_transform= lambda t:torch.tensor([t]).float())
-ds_valid = datasets.ImageFolder("./data/cifar2/test/",
+ds_valid = datasets.ImageFolder("../data/cifar2/test/",
             transform = transform_train,target_transform= lambda t:torch.tensor([t]).float())
 
 print(ds_train.class_to_idx)
-
 ```
 
 ```
@@ -265,10 +239,6 @@ for features,labels in dl_train:
 ```
 torch.Size([50, 3, 32, 32])
 torch.Size([50, 1])
-```
-
-```python
-
 ```
 
 **3，创建自定义数据集**
@@ -331,10 +301,9 @@ df_word_dict["word_id"] = range(2,MAX_WORDS) #编号0和1分别留给未知词<u
 word_id_dict = df_word_dict["word_id"].to_dict()
 
 df_word_dict.head(10)
-
 ```
 
-![](./data/5-1-词典.png)
+![](../data/5-1-词典.png)
 
 
 然后我们利用构建好的词典，将文本转换成token序号。
@@ -364,7 +333,6 @@ def text_to_token(text_file,token_file):
         
 text_to_token(train_data_path,train_token_path)
 text_to_token(test_data_path,test_token_path)
-
 ```
 
 接着将token文本按照样本分割，每个文件存放一个样本的数据。
@@ -421,7 +389,6 @@ class imdbDataset(Dataset):
             label = torch.tensor([float(label)],dtype = torch.float)
             feature = torch.tensor([int(x) for x in tokens.split(" ")],dtype = torch.long)
             return  (feature,label)
-    
 ```
 
 ```python
@@ -518,7 +485,6 @@ model = Net()
 print(model)
 
 model.summary(input_shape = (200,),input_dtype = torch.LongTensor)
-
 ```
 
 ```
@@ -573,7 +539,6 @@ def accuracy(y_pred,y_true):
 
 model.compile(loss_func = nn.BCELoss(),optimizer= torch.optim.Adagrad(model.parameters(),lr = 0.02),
              metrics_dict={"accuracy":accuracy})
-
 ```
 
 ```python
@@ -625,12 +590,8 @@ Start Training ...
 
 ================================================================================2020-07-11 23:26:19
 Finished Training...
-
 ```
 
-```python
-
-```
 
 ### 三，使用DataLoader加载数据集
 
@@ -697,15 +658,4 @@ tensor([43, 44, 21, 36,  9,  5, 28, 16, 20, 14])
 tensor([23, 49, 35, 38,  2, 34, 45, 18, 15, 40])
 tensor([26,  6, 27, 39,  8,  4, 24, 19, 32, 17])
 tensor([ 1, 29, 11, 47, 12, 22, 48, 42, 10,  7])
-```
-
-
-如果对本书内容理解上有需要进一步和作者交流的地方，欢迎在公众号"Python与算法之美"下留言。作者时间和精力有限，会酌情予以回复。
-
-也可以在公众号后台回复关键字：**加群**，加入读者交流群和大家讨论。
-
-![image.png](./data/Python与算法之美logo.jpg)
-
-```python
-
 ```
