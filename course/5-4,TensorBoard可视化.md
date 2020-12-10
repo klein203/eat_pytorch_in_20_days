@@ -25,9 +25,6 @@ Pytorch中利用TensorBoard可视化的大概过程如下：
 * 可视化人工绘图： writer.add_figure
 
 
-```python
-
-```
 
 ### 一，可视化模型结构
 
@@ -119,14 +116,14 @@ Estimated Total Size (MB): 0.578388
 ```
 
 ```python
-writer = SummaryWriter('./data/tensorboard')
+writer = SummaryWriter('../data/tensorboard')
 writer.add_graph(net,input_to_model = torch.rand(1,3,32,32))
 writer.close()
 ```
 
 ```python
 %load_ext tensorboard
-#%tensorboard --logdir ./data/tensorboard
+#%tensorboard --logdir ../data/tensorboard
 ```
 
 ```python
@@ -137,16 +134,13 @@ notebook.list()
 
 ```python
 #启动tensorboard程序
-notebook.start("--logdir ./data/tensorboard")
-#等价于在命令行中执行 tensorboard --logdir ./data/tensorboard
+notebook.start("--logdir ../data/tensorboard")
+#等价于在命令行中执行 tensorboard --logdir ../data/tensorboard
 #可以在浏览器中打开 http://localhost:6006/ 查看
 ```
 
-![](./data/5-4-graph结构.png)
+![](../data/5-4-graph结构.png)
 
-```python
-
-```
 
 ### 二，可视化指标变化
 
@@ -176,7 +170,7 @@ def f(x):
     result = a*torch.pow(x,2) + b*x + c 
     return(result)
 
-writer = SummaryWriter('./data/tensorboard')
+writer = SummaryWriter('../data/tensorboard')
 for i in range(500):
     optimizer.zero_grad()
     y = f(x)
@@ -195,11 +189,7 @@ y= tensor(0.) ; x= tensor(1.0000)
 ```
 
 
-![](./data/5-4-指标变化.png)
-
-```python
-
-```
+![](../data/5-4-指标变化.png)
 
 ### 三，可视化参数分布
 
@@ -219,21 +209,16 @@ def norm(mean,std):
     t = std*torch.randn((100,20))+mean
     return t
 
-writer = SummaryWriter('./data/tensorboard')
+writer = SummaryWriter('../data/tensorboard')
 for step,mean in enumerate(range(-10,10,1)):
     w = norm(mean,1)
     writer.add_histogram("w",w, step)
     writer.flush()
 writer.close()
-    
-
 ```
 
-![](./data/5-4-张量分布.png)
+![](../data/5-4-张量分布.png)
 
-```python
-
-```
 
 ### 四，可视化原始图像
 
@@ -261,13 +246,12 @@ transform_train = transforms.Compose(
     [transforms.ToTensor()])
 transform_valid = transforms.Compose(
     [transforms.ToTensor()])
-
 ```
 
 ```python
-ds_train = datasets.ImageFolder("./data/cifar2/train/",
+ds_train = datasets.ImageFolder("../data/cifar2/train/",
             transform = transform_train,target_transform= lambda t:torch.tensor([t]).float())
-ds_valid = datasets.ImageFolder("./data/cifar2/test/",
+ds_valid = datasets.ImageFolder("../data/cifar2/test/",
             transform = transform_train,target_transform= lambda t:torch.tensor([t]).float())
 
 print(ds_train.class_to_idx)
@@ -279,19 +263,19 @@ dl_train_iter = iter(dl_train)
 images, labels = dl_train_iter.next()
 
 # 仅查看一张图片
-writer = SummaryWriter('./data/tensorboard')
+writer = SummaryWriter('../data/tensorboard')
 writer.add_image('images[0]', images[0])
 writer.close()
 
 # 将多张图片拼接成一张图片，中间用黑色网格分割
-writer = SummaryWriter('./data/tensorboard')
+writer = SummaryWriter('../data/tensorboard')
 # create grid of images
 img_grid = torchvision.utils.make_grid(images)
 writer.add_image('image_grid', img_grid)
 writer.close()
 
 # 将多张图片直接写入
-writer = SummaryWriter('./data/tensorboard')
+writer = SummaryWriter('../data/tensorboard')
 writer.add_images("images",images,global_step = 0)
 writer.close()
 ```
@@ -300,15 +284,8 @@ writer.close()
 {'0_airplane': 0, '1_automobile': 1}
 ```
 
-```python
+![](../data/5-4-原始图像可视化.png)
 
-```
-
-![](./data/5-4-原始图像可视化.png)
-
-```python
-
-```
 
 ### 五，可视化人工绘图
 
@@ -331,9 +308,9 @@ transform_train = transforms.Compose(
 transform_valid = transforms.Compose(
     [transforms.ToTensor()])
 
-ds_train = datasets.ImageFolder("./data/cifar2/train/",
+ds_train = datasets.ImageFolder("../data/cifar2/train/",
             transform = transform_train,target_transform= lambda t:torch.tensor([t]).float())
-ds_valid = datasets.ImageFolder("./data/cifar2/test/",
+ds_valid = datasets.ImageFolder("../data/cifar2/test/",
             transform = transform_train,target_transform= lambda t:torch.tensor([t]).float())
 
 print(ds_train.class_to_idx)
@@ -360,27 +337,12 @@ for i in range(9):
 plt.show()
 ```
 
-![](./data/5-4-九宫格.png)
+![](../data/5-4-九宫格.png)
 
 ```python
-writer = SummaryWriter('./data/tensorboard')
+writer = SummaryWriter('../data/tensorboard')
 writer.add_figure('figure',figure,global_step=0)
 writer.close()                         
 ```
 
-![](./data/5-4-可视化人工绘图.png)
-
-
-如果对本书内容理解上有需要进一步和作者交流的地方，欢迎在公众号"Python与算法之美"下留言。作者时间和精力有限，会酌情予以回复。
-
-也可以在公众号后台回复关键字：**加群**，加入读者交流群和大家讨论。
-
-![image.png](./data/Python与算法之美logo.jpg)
-
-```python
-
-```
-
-```python
-
-```
+![](../data/5-4-可视化人工绘图.png)
