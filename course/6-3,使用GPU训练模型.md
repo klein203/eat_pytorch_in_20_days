@@ -70,7 +70,6 @@ print("if_cuda=",if_cuda)
 
 gpu_count = torch.cuda.device_count()
 print("gpu_count=",gpu_count)
-
 ```
 
 ```
@@ -87,7 +86,6 @@ print(tensor_gpu.is_cuda)
 
 tensor_cpu = tensor_gpu.to("cpu") # 或者 tensor_cpu = tensor_gpu.cpu() 
 print(tensor_cpu.device)
-
 ```
 
 ```
@@ -121,11 +119,10 @@ print(model.device_ids)
 print(next(model.module.parameters()).device) 
 
 #注意保存参数时要指定保存model.module的参数
-torch.save(model.module.state_dict(), "./data/model_parameter.pkl") 
+torch.save(model.module.state_dict(), "../data/model_parameter.pkl") 
 
 linear = nn.Linear(2,1)
-linear.load_state_dict(torch.load("./data/model_parameter.pkl")) 
-
+linear.load_state_dict(torch.load("../data/model_parameter.pkl")) 
 ```
 
 ```
@@ -139,12 +136,8 @@ cuda:0
 
 # 该方法在cuda超内存时十分有用
 torch.cuda.empty_cache()
-
 ```
 
-```python
-
-```
 
 ### 一，矩阵乘法范例
 
@@ -188,7 +181,6 @@ toc = time.time()
 print(toc-tic)
 print(a.device)
 print(b.device)
-
 ```
 
 ```
@@ -229,7 +221,6 @@ class LinearRegression(nn.Module):
         return x@self.w.t() + self.b
         
 linear = LinearRegression() 
-
 ```
 
 ```python
@@ -266,8 +257,6 @@ train(500)
 {'epoch': 450, 'loss': 3.996488094329834}
 time used: 5.4090576171875
 ```
-
-
 
 
 **2，使用GPU**
@@ -314,7 +303,6 @@ linear.to(device)
 
 #查看模型是否已经移动到GPU上
 print("if on cuda:",next(linear.parameters()).is_cuda)
-
 ```
 
 ```
@@ -356,9 +344,6 @@ train(500)
 time used: 0.4889392852783203
 ```
 
-```python
-
-```
 
 ### 三，torchkeras使用单GPU范例
 
@@ -390,8 +375,8 @@ import torchkeras
 ```python
 transform = transforms.Compose([transforms.ToTensor()])
 
-ds_train = torchvision.datasets.MNIST(root="./data/minist/",train=True,download=True,transform=transform)
-ds_valid = torchvision.datasets.MNIST(root="./data/minist/",train=False,download=True,transform=transform)
+ds_train = torchvision.datasets.MNIST(root="../data/minist/",train=True,download=True,transform=transform)
+ds_valid = torchvision.datasets.MNIST(root="../data/minist/",train=False,download=True,transform=transform)
 
 dl_train =  torch.utils.data.DataLoader(ds_train, batch_size=128, shuffle=True, num_workers=4)
 dl_valid =  torch.utils.data.DataLoader(ds_valid, batch_size=128, shuffle=False, num_workers=4)
@@ -419,9 +404,6 @@ for i in range(9):
 plt.show()
 ```
 
-```python
-
-```
 
 **2，定义模型**
 
@@ -495,7 +477,6 @@ model.compile(loss_func = nn.CrossEntropyLoss(),
              metrics_dict={"accuracy":accuracy},device = device) # 注意此处compile时指定了device
 
 dfhistory = model.fit(3,dl_train = dl_train, dl_val=dl_valid, log_step_freq=100) 
-
 ```
 
 ```
@@ -652,8 +633,8 @@ import torchkeras
 ```python
 transform = transforms.Compose([transforms.ToTensor()])
 
-ds_train = torchvision.datasets.MNIST(root="./data/minist/",train=True,download=True,transform=transform)
-ds_valid = torchvision.datasets.MNIST(root="./data/minist/",train=False,download=True,transform=transform)
+ds_train = torchvision.datasets.MNIST(root="../data/minist/",train=True,download=True,transform=transform)
+ds_valid = torchvision.datasets.MNIST(root="../data/minist/",train=False,download=True,transform=transform)
 
 dl_train =  torch.utils.data.DataLoader(ds_train, batch_size=128, shuffle=True, num_workers=4)
 dl_valid =  torch.utils.data.DataLoader(ds_valid, batch_size=128, shuffle=False, num_workers=4)
@@ -691,9 +672,6 @@ model = torchkeras.Model(net)
 model.summary(input_shape=(1,32,32))
 ```
 
-```python
-
-```
 
 **3，训练模型**
 
@@ -711,7 +689,6 @@ model.compile(loss_func = nn.CrossEntropyLoss(),
              metrics_dict={"accuracy":accuracy},device = device) # 注意此处compile时指定了device
 
 dfhistory = model.fit(3,dl_train = dl_train, dl_val=dl_valid, log_step_freq=100) 
-
 ```
 
 ```
@@ -840,13 +817,8 @@ model_clone.compile(loss_func = nn.CrossEntropyLoss(),
              optimizer= torch.optim.Adam(model.parameters(),lr = 0.02),
              metrics_dict={"accuracy":accuracy},device = device)
 model_clone.evaluate(dl_valid)
-
 ```
 
 ```
 {'val_accuracy': 0.9603441455696202, 'val_loss': 0.14203246376371081}
-```
-
-```python
-
 ```
