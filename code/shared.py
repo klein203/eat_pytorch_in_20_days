@@ -65,7 +65,8 @@ def load_weight(model, file, net_only=False):
 # metrics
 def precision_metrics(targets, labels):
     # targets (-1, C), labels (-1)
-    y_pred = targets.data.max(1)[1].numpy()
+    # y_pred = targets.data.max(1)[1].numpy()
+    y_pred = targets.data.topk(1).indices.squeeze().numpy()
     y_true = labels.numpy()
     score = precision_score(y_true, y_pred, average='macro')
     # return (1)
@@ -73,7 +74,8 @@ def precision_metrics(targets, labels):
 
 def accuracy_metrics(targets, labels):
     # targets (-1, C), labels (-1)
-    y_pred = targets.data.max(1)[1].numpy()
+    # y_pred = targets.data.max(1)[1].numpy()
+    y_pred = targets.data.topk(1).indices.squeeze().numpy()
     y_true = labels.numpy()
     score = accuracy_score(y_true, y_pred)
     # return (1)
