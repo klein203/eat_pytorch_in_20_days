@@ -26,10 +26,10 @@ def plot_metric(dfhistory, metric):
 def plot_images(features, mean=0.5, std=0.5, nrows=8, figsize=(2, 2)):
     # images: tensor (B, C, H, W), grid_image: ndarray (C, H, W)
     grid_image = utils.make_grid(features, nrow=nrows).numpy()
-    grid_image = mean + grid_image * std
     
     # imshow (H, W, C)
     grid_image = grid_image.transpose(1, 2, 0)
+    grid_image = mean + grid_image * std
 
     plt.figure(figsize=figsize)
     plt.imshow(grid_image)
